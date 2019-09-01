@@ -2,19 +2,19 @@
   <div class="login">
     <el-card class="box-card">
       <img src="../../assets/imgs/logo_index.png" alt="黑马头条" />
-      <el-form>
-        <el-form-item>
-          <el-input placeholder="请输入手机号"></el-input>
+      <el-form :model="formData" :rules="rules" ref="formData">
+        <el-form-item prop="number">
+          <el-input v-model="formData.number" placeholder="请输入手机号"></el-input>
         </el-form-item>
-        <el-form-item>
-          <el-input placeholder="请输入验证码" style="width:250px"></el-input>
+        <el-form-item prop="code">
+          <el-input v-model="formData.code" placeholder="请输入验证码" style="width:250px"></el-input>
           <el-button style="float:right">发送验证码</el-button>
         </el-form-item>
-        <el-form-item>
-          <el-checkbox>我已阅读并同意用户协议和隐私条款</el-checkbox>
+        <el-form-item prop="check">
+          <el-checkbox v-model="formData.check">我已阅读并同意用户协议和隐私条款</el-checkbox>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" style="width:100%">登录</el-button>
+          <el-button type="primary" style="width:100%" @click="submit">登录</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -22,7 +22,65 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data () {
+    //   自定义勾选协议校验规则
+    let validator = (rule, value, callback) => {
+      if (value) {
+        callback()
+      } else {
+        callback(new Error('请勾选协议'))
+      }
+    }
+    return {
+      formData: {
+        //   表单属性
+        number: '',
+        code: '',
+        check: false
+      },
+      //   表单验证规则
+      rules: {
+        number: [
+          {
+            required: true,
+            message: '手机号不能为空'
+          },
+          {
+            pattern: /^1[3456789]\d{9}$/,
+            message: '手机号长度为11个字符'
+          }
+        ],
+        code: [
+          {
+            required: true,
+            message: '验证码不能为空'
+          },
+          {
+            pattern: /^\d{6}$/,
+            message: '验证码为6位'
+          }
+        ],
+        check: [
+          {
+            validator
+          }
+        ]
+      }
+    }
+  },
+  methods: {
+    submit () {
+      // 通过el-form组件的validata方法 校验整个表单的数据
+      // 传入一个回调函数 isOK为true 说明所有的校验规则都成功了
+      // 如果为false 说明有错误
+      this.$refs.formData.validate(isOk => {
+        if (isOk) {
+        }
+      })
+    }
+  }
+}
 </script>
 
 <style lang='less'>
