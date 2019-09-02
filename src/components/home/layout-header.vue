@@ -9,15 +9,15 @@
         <!-- 属性不给:就相当于字符串 图片是动态更新的-->
         <!-- 不确定图片是否一定会使用=> 图片不会自动转成base64 -->
         <img :src="userInfo.photo? userInfo.photo : defaultImg" alt class="img" />
-        <el-dropdown trigger="click">
+        <el-dropdown trigger="click" @command="handleCommand">
           <span class="el-dropdown-link" style="font-size:18px">
             {{userInfo.name}}
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>个人信息</el-dropdown-item>
-            <el-dropdown-item>git地址</el-dropdown-item>
-            <el-dropdown-item>退出</el-dropdown-item>
+            <el-dropdown-item command="message">个人信息</el-dropdown-item>
+            <el-dropdown-item command="git">git地址</el-dropdown-item>
+            <el-dropdown-item command="quit">退出</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-col>
@@ -48,6 +48,16 @@ export default {
         .catch(err => {
           console.log(err)
         })
+    },
+    handleCommand (command) {
+      //   console.log(command);
+      if (command === 'account') {
+        // 账户信息
+      } else if (command === 'git') {
+        window.location.href = 'https://github.com/gaomingli1218/toutiao-lili'
+      } else {
+        this.$router.push('/login')
+      }
     }
   },
   created () {
