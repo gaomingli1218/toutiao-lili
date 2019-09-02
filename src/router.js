@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from './views/home'
 // import Login from './views/login/index.vue'
 import Login from './views/login' // 简写
+import layoutMain from './components/home/layout-main.vue'
 
 Vue.use(Router)
 
@@ -16,6 +17,15 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home
+    },
+    {
+      path: '/home',
+      name: 'home',
+      component: Home,
+      children: [{
+        path: '',
+        component: layoutMain
+      }]
     }
     // {
     //   path: '/about',
