@@ -82,7 +82,7 @@ export default {
             data: this.formData
           })
             .then(res => {
-              console.log(res.data.data.token)
+              // console.log(res.data.data.token);
               // console.log(res.data);
               // 放到前端的缓存中
               window.localStorage.setItem('user-token', res.data.data.token)
