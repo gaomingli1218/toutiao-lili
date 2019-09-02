@@ -6,10 +6,12 @@
         <span>江苏传智播客教育科技股份有限公司</span>
       </el-col>
       <el-col :span="3">
-        <img src="../../assets/imgs/avatar.jpg" alt class="img" />
+        <!-- 属性不给:就相当于字符串 图片是动态更新的-->
+        <!-- 不确定图片是否一定会使用=> 图片不会自动转成base64 -->
+        <img :src="userInfo.photo? userInfo.photo : defaultImg" alt class="img" />
         <el-dropdown trigger="click">
           <span class="el-dropdown-link" style="font-size:18px">
-            宝宝们
+            {{userInfo.name}}
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
@@ -24,7 +26,34 @@
 </template>
 
 <script>
-export default {}
+export default {
+  data () {
+    return {
+      userInfo: {},
+      // vue中 给img图片的化 ,vue会将图片转义成base64位的字符串
+      defaultImg: require('../../assets/imgs/avatar.jpg')
+    }
+  },
+  methods: {
+    getuserInfo () {
+      let token = window.localStorage.getItem('user-token')
+      this.$axios({
+        url: '/user/profile',
+        // 在Authorization 请求头中携带的token，格式为"Bearer "拼接上token，注意Bearer后有一个空格
+        headers: { Authorization: 'Bearer ' + token }
+      })
+        .then(res => {
+          this.userInfo = res.data.data
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
+  },
+  created () {
+    this.getuserInfo()
+  }
+}
 </script>
 
 <style lang='less' scoped>
@@ -38,6 +67,8 @@ export default {}
     margin-right: 10px;
   }
   .img {
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     vertical-align: middle;
     margin-right: 10px;
