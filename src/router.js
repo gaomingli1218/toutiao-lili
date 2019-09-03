@@ -24,7 +24,12 @@ export default new Router({
       children: [{
         path: '',
         component: layoutMain
-      }]
+      }
+      //   {
+      //   path: 'comment',
+      //   component: () => import('./views/comment')
+      // }
+      ]
     }
     // {
     //   path: '/about',

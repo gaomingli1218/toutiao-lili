@@ -12,7 +12,7 @@
         <layout-header></layout-header>
       </el-header>
       <el-main style="margin:0;padding:0">
-        <layout-main></layout-main>
+        <router-view></router-view>
       </el-main>
     </el-container>
   </el-container>
@@ -21,12 +21,12 @@
 <script>
 import layoutSlider from '../../components/home/layout-slider'
 import layoutHeader from '../../components/home/layout-header'
-import layoutMain from '../../components/home/layout-main'
+// import layoutMain from '../../components/home/layout-main'
 export default {
   components: {
     'layout-slider': layoutSlider,
-    'layout-header': layoutHeader,
-    'layout-main': layoutMain
+    'layout-header': layoutHeader
+    // 'layout-main': layoutMain
   }
 }
 </script>
