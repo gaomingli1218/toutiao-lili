@@ -5,7 +5,7 @@
         <i class="el-icon-s-fold icon"></i>
         <span>江苏传智播客教育科技股份有限公司</span>
       </el-col>
-      <el-col :span="3">
+      <el-col :span="4">
         <!-- 属性不给:就相当于字符串 图片是动态更新的-->
         <!-- 不确定图片是否一定会使用=> 图片不会自动转成base64 -->
         <img :src="userInfo.photo? userInfo.photo : defaultImg" alt class="img" />
@@ -39,13 +39,9 @@ export default {
       this.$axios({
         url: '/user/profile'
         // 在Authorization 请求头中携带的token，格式为"Bearer "拼接上token，注意Bearer后有一个空格
+      }).then(res => {
+        this.userInfo = res.data
       })
-        .then(res => {
-          this.userInfo = res.data
-        })
-        .catch(err => {
-          console.log(err)
-        })
     },
     handleCommand (command) {
       //   console.log(command);
