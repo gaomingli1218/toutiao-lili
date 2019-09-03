@@ -36,14 +36,12 @@ export default {
   },
   methods: {
     getuserInfo () {
-      let token = window.localStorage.getItem('user-token')
       this.$axios({
-        url: '/user/profile',
+        url: '/user/profile'
         // 在Authorization 请求头中携带的token，格式为"Bearer "拼接上token，注意Bearer后有一个空格
-        headers: { Authorization: 'Bearer ' + token }
       })
         .then(res => {
-          this.userInfo = res.data.data
+          this.userInfo = res.data
         })
         .catch(err => {
           console.log(err)

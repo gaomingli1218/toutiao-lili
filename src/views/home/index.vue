@@ -2,7 +2,7 @@
   <!-- 最外层容器 -->
   <el-container style="margin:0;padding:0">
     <!-- 左侧导航 -->
-    <el-aside style="width:250px;background: #323745">
+    <el-aside style="width:250px;background: #323745;overflow:hidden">
       <layout-slider></layout-slider>
     </el-aside>
     <!-- 右侧 -->
