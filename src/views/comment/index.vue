@@ -12,8 +12,15 @@
       <el-table-column prop="total_comment_count" label="总评论说"></el-table-column>
       <el-table-column prop="fans_comment_count" label="粉丝评论数"></el-table-column>
       <el-table-column label="操作">
-        <el-button type="text">修改评论</el-button>
-        <el-button type="text">关闭评论</el-button>
+        <!-- 通过  slot-scoped  obj可以获取到 row, column, $index 和 store（table 内部的状态管理）的数据 -->
+        <template slot-scope="obj">
+          <el-button type="text">修改</el-button>
+          <el-button
+            @click="openOrclose(obj.row)"
+            :style="{color: obj.row.comment_status ? '#E6A23C' : '#409EFF'}"
+            type="text"
+          >{{obj.row.comment_status? "关闭评论":'打开评论'}}</el-button>
+        </template>
       </el-table-column>
     </el-table>
   </el-card>
@@ -31,6 +38,22 @@ export default {
     }
   },
   methods: {
+    openOrclose (row) {
+      // 接收点击事件传过来的row参数
+      let mess = row.comment_status ? '关闭' : '打开'
+      this.$confirm('你是否要' + mess + '评论', '提示').then(() => {
+        // console.log(row.id);
+        this.$axios({
+          method: 'put',
+          url: '/comments/status',
+          // jsonBigInt传递过来的id不是字符串   需要转成字符串
+          params: { article_id: row.id.toString() }, // 传递articleId参数
+          data: { allow_comment: !row.comment_status } // 取反 因为当前如果是true  只能改成false , 如果是false 改成true
+        }).then(res => {
+          this.getComments() // 成功之后 重新调用 拉取评论数据的方法
+        })
+      })
+    },
     // formatter 格式化内容 Function(row可以得到这一行的内容, column, cellValue, index)
     formatter (row) {
       return row.comment_status ? '正常' : '关闭'

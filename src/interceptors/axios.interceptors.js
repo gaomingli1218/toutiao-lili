@@ -1,9 +1,19 @@
 import axios from 'axios'
 import router from '../permission'
 import { Message } from 'element-ui'
+import jsonBigInt from 'json-bigint'
 
 // 配置baseUrl
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0'
+
+//  `transformResponse` 在传递给 then/catch 前，允许修改响应数据
+// transformResponse: [function (data) {
+//   // 对 data 进行任意转换处理
+//   return data;
+// }],
+axios.defaults.transformResponse = [function (data) {
+  return jsonBigInt.parse(data)
+}]
 
 // 请求拦截器
 
