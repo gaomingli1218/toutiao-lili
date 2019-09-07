@@ -5,7 +5,7 @@
       <!-- 面包屑的具名插槽 -->
       <template slot="title">评论列表</template>
     </bread-crumb>
-    <el-table :data="list">
+    <el-table :data="list" style="font-size:18px">
       <el-table-column prop="title" label="标题" width="700"></el-table-column>
       <!-- formatter是el-table-column属性  格式化内容，return里写什么就显示什么 -->
       <el-table-column :formatter="formatter" prop="comment_status" label="评论状态"></el-table-column>
