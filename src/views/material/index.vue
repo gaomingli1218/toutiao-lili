@@ -9,8 +9,12 @@
           <div v-for="item in list" :key="item.id" class="photo">
             <img :src="item.url" alt />
             <el-row type="flex" justify="space-around" style="font-size:22px;margin-top:10px">
-              <i :style="{color: item.is_collected ? 'red' : '' }" class="el-icon-star-on"></i>
-              <i class="el-icon-delete-solid"></i>
+              <i
+                @click="isCollect(item)"
+                :style="{color: item.is_collected ? 'red' : '' }"
+                class="el-icon-star-on"
+              ></i>
+              <i @click="delImg(item)" class="el-icon-delete-solid"></i>
             </el-row>
           </div>
         </div>
@@ -28,10 +32,6 @@
         <div class="photobox">
           <div v-for="item in list" :key="item.id" class="photo">
             <img :src="item.url" alt />
-            <el-row type="flex" justify="space-around" style="font-size:22px;margin-top:10px">
-              <i :style="{color: item.is_collected ? 'red' : '' }" class="el-icon-star-on"></i>
-              <i class="el-icon-delete-solid"></i>
-            </el-row>
           </div>
         </div>
         <el-row type="flex" justify="center" style="margin:40px 0">
@@ -66,6 +66,25 @@ export default {
     }
   },
   methods: {
+    isCollect (item) {
+      this.$axios({
+        url: '/user/images/' + item.id,
+        method: 'put',
+        data: { collect: !item.is_collected }
+      }).then(() => {
+        this.getMaterial() // 重新加载
+      })
+    },
+    delImg (item) {
+      this.$confirm('你确定要删除图片吗？', '提示').then(() => {
+        this.$axios({
+          url: '/user/images/' + item.id,
+          method: 'delete'
+        }).then(() => {
+          this.getMaterial()
+        })
+      })
+    },
     changePage (newpage) {
       this.page.page = newpage
       this.getMaterial()

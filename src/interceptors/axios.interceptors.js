@@ -12,7 +12,8 @@ axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0'
 //   return data;
 // }],
 axios.defaults.transformResponse = [function (data) {
-  return jsonBigInt.parse(data)
+  // 调用图片素材删除接口  => 删除接口没有任何的返回值 => jsonBig.parse("") => 错误 => 需要设置没有响应数据时返回一个空数组
+  return data ? jsonBigInt.parse(data) : {}
 }]
 
 // 请求拦截器
