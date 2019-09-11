@@ -3,6 +3,10 @@
     <bread-crumb slot="header">
       <template slot="title">素材列表</template>
     </bread-crumb>
+    <!-- http-request自定义上传 -->
+    <el-upload action :show-file-list="false" :http-request="uploadImg" class="load">
+      <el-button type="primary">上传图片</el-button>
+    </el-upload>
     <el-tabs v-model="activeName" @tab-click="changeTab">
       <el-tab-pane label="全部素材" name="all">
         <div class="photobox">
@@ -66,6 +70,19 @@ export default {
     }
   },
   methods: {
+    // formdata类型
+    uploadImg (params) {
+      console.log(params)
+      let obj = new FormData()
+      obj.append('image', params.file)
+      this.$axios({
+        url: '/user/images',
+        method: 'post',
+        data: obj
+      }).then(() => {
+        this.getMaterial()
+      })
+    },
     isCollect (item) {
       this.$axios({
         url: '/user/images/' + item.id,
@@ -120,6 +137,11 @@ export default {
 
 <style lang='less' csoped>
 .material {
+  .load {
+    position: absolute;
+    top: 145px;
+    right: 120px;
+  }
   .photobox {
     display: flex;
     flex-wrap: wrap;
